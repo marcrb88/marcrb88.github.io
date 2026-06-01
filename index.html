@@ -1,20 +1,55 @@
-<!DOCTYPE html>
-<html lang="ca">
-<head>
-  <meta charset="UTF-8">
-  <title>Mapa coroplètic Baix Camp</title>
-  <script src="https://d3js.org/d3.v7.min.js"></script>
-  <link rel="stylesheet" href="style.css">
-</head>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
-<body>
-  <h1>Mapa coroplètic de superfície agrícola (ha)</h1>
+<div id="map" style="height: 600px;"></div>
 
-  <label>Campanya:</label>
-  <select id="campanyaSelect"></select>
+<script>
+  const map = L.map('map').setView([41.7, 1.5], 10)
 
-  <svg id="mapa" width="900" height="700"></svg>
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map)
 
-  <script src="script.js"></script>
-</body>
-</html>
+  // Paleta de colors per cultiu
+  const colors = {
+    'OLIVERA': '#4CAF50',
+    'AVELLANER': '#8BC34A',
+    'Vinya': '#CDDC39',
+    'Cereal': '#FFC107',
+    'Fruita dolca': '#FF9800',
+    'Altres': '#9E9E9E'
+  }
+
+  // Llegenda
+  const legend = L.control({ position: 'bottomright' })
+  legend.onAdd = function () {
+    const div = L.DomUtil.create('div', 'info legend')
+    div.innerHTML = '<b>Cultius</b><br>'
+    for (const [cultiu, color] of Object.entries(colors)) {
+      div.innerHTML +=
+        `<i style="background:${color};width:12px;height:12px;display:inline-block;margin-right:4px;"></i>${cultiu}<br>`
+    }
+    return div
+  }
+  legend.addTo(map)
+
+  // Carregar parcel·les
+  fetch('parceles_simplificat.geojson')
+    .then(r => r.json())
+    .then(data => {
+      L.geoJSON(data, {
+        style: f => ({
+          color: colors[f.properties.Cultiu] || colors['Altres'],
+          weight: 0.3
+        }),
+        onEachFeature: (feature, layer) => {
+          layer.bindPopup(`
+            <b>Municipi:</b> ${feature.properties.Municipi}<br>
+            <b>Cultiu:</b> ${feature.properties.Cultiu}<br>
+            <b>Campanya:</b> ${feature.properties.Campanya}<br>
+            <b>Hectàrees:</b> ${feature.properties.HA}
+          `)
+        }
+      }).addTo(map)
+    })
+</script>
