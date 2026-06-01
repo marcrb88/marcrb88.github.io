@@ -1,0 +1,8 @@
+body {
+  font-family: sans-serif;
+}
+
+#tooltip {
+  pointer-events: none;
+  font-size: 14px;
+}
