@@ -7,7 +7,7 @@
 
 <header class="py-4 mb-4 border-bottom" style="background:#f8f9fa;">
   <div class="container d-flex flex-column align-items-center">
-    <h1 class="fw-bold text-center">Evolució i Distribució de Cultius de Fruits Secs al Baix Camp</h1>
+    <h1 class="fw-bold text-center">Evolució i distribució de cultius de fruits secs al Baix Camp</h1>
     <p class="mt-2 mb-1 fs-5">Marc Roigé Benaiges</p>
     <p class="mb-1"> Visualització de Dades</p>
     <p class="mb-0">Pràctica Part II — Juny 2026</p>
@@ -30,15 +30,15 @@
 
    <h3 id="intro" class="fw-bold mt-4">1. Introducció</h3>
   <p>
-    Aquest projecte analitza la <strong>distribució i evolució dels cultius de fruits secs al Baix Camp</strong entre els anys 2020 i 2024, utilitzant dades de la <em>Declaració Única Agrària (DUN)</em>.
+    Aquest projecte analitza la <strong>distribució i evolució dels cultius de fruits secs al Baix Camp</strong> entre els anys 2020 i 2024, utilitzant dades de la <em>Declaració Única Agrària (DUN)</em>.
     L’objectiu és comprendre com han evolucionat els principals cultius —olivera, avellaner, ametller, garrofer, noguera i pistatxer— en termes de superfície, tipus de reg i presència territorial.
   </p>
 
   <h3 id="mapa" class="fw-bold mt-4">2. Mapa interactiu de cultius</h3>
   <p>
-    El mapa principal permet explorar la <strong>distribució espacial</strong de les parcel·les agrícoles del Baix Camp.
-    Mitjançant els filtres de campanya, cultiu, varietat, tipus (secà/regadiu) i municipi, l’usuari pot personalitzar la visualització per obtenir una lectura precisa de la realitat agrícola.
-    Aquesta eina és clau per identificar zones de concentració de cultius i patrons de regadiu.
+    El següent mapa permet explorar la <strong>distribució espacial</strong> de les parcel·les agrícoles del Baix Camp.
+    Mitjançant els filtres de campanya, cultiu, varietat, tipus (secà/regadiu), municipi i hectàrees, l’usuari pot personalitzar la visualització per obtenir una lectura precisa de la realitat agrícola.
+    Aquesta eina és clau per identificar zones de concentració de cultius i patrons de cultiu.
   </p>
 
   <div id="filters" class="container mt-4 mb-5">
@@ -102,11 +102,12 @@
 
 <div id="map" style="height: 600px;"></div>
 
-  <<h3 id="heatmap" class="fw-bold mt-4">3. Heatmap de dominància per municipi i campanya</h3>
+  <h3 id="heatmap" class="fw-bold mt-4">3. Heatmap de dominància per municipi i campanya</h3>
   <p>
-    El heatmap mostra el <strong>cultiu dominant</strong de cada municipi per campanya, amb colors que representen cada tipus de fruit sec.
-    Aquesta visualització permet detectar canvis temporals en la dominància agrícola i comparar municipis amb dinàmiques diferents.
-    Per exemple, es pot observar la persistència de l’olivera en zones costaneres i l’expansió de l’avellaner en àrees interiors.
+    El heatmap mostra el <strong>cultiu dominant</strong> de cada municipi per campanya, amb colors que representen cada tipus de fruit sec (veure llegenda).
+    Aquesta visualització permet detectar canvis temporals en la dominància agrícola i comparar municipis amb tipus de cultius diferents. Per exemple, amb un primer cop d'ull
+    podem observar una clara predominança de l'olivera i l'avellaner en la gran majoria de municipis exceptuant l'Albiol, on en la totalitat dels anys 
+    observarts, l'ametller és el clar guanyador. Finalment, una especial menció a l'Hospitalet de l'Infant, on darrerament s'hi ha imposat el garrofer. 
   </p>
 
   <div id="heatmap-dominancia" class="container mt-5">
@@ -118,7 +119,7 @@
 
   <h3 id="regadiu" class="fw-bold mt-4">4. Superfície de Regadiu vs Secà per Cultiu</h3>
   <p>
-    Aquest gràfic apilat compara la <strong>superfície total de regadiu i secà</strong per cada cultiu.
+    Aquest gràfic de barres verticals apilat compara la <strong>superfície total de regadiu i secà</strong> per cada cultiu durant totes les campanyes estudiades.
     Els colors blau i marró indiquen respectivament les hectàrees regades i de secà, mostrant la dependència hídrica de cada espècie.
     L’olivera i l’avellaner destaquen per la seva presència en regadiu, mentre que el garrofer i l’ametller mantenen una major proporció de secà.
   </p>
@@ -129,8 +130,10 @@
 
   <h3 id="serie" class="fw-bold mt-4">5. Evolució d’hectàrees per cultiu (2020–2024)</h3>
   <p>
-    La sèrie temporal il·lustra la <strong>tendència de creixement o estabilitat</strong de cada cultiu al llarg dels cinc anys.
-    Aquesta visualització ajuda a identificar patrons de substitució o consolidació agrícola, com l’augment progressiu de l’avellaner o la estabilitat de l’olivera.
+    La sèrie temporal il·lustra la <strong>tendència de creixement</strong> de cada cultiu al llarg dels cinc anys.
+    Aquesta visualització ajuda a identificar patrons de substitució o consolidació agrícola. En aquests darreres anys, s'observa una tendència de creixement
+    considerable per part de l'olivera i gens menyspreable de garrofer. Tantmateix, l'avellaner està reflectint una tendència negativa progressiva. L'ametller, la noguera
+    i el festuc romanen estables.
   </p>
 
   <div id="chart-time-series" class="container mt-5">
@@ -139,24 +142,30 @@
 
   <h3 id="distribucio" class="fw-bold mt-4">6. Distribució de la superfície de cultius de fruits secs per municipi</h3>
   <p>
-    
+    Aquest gràfic apilat mostra la <strong>distribució territorial de la superfície cultivada</strong> per a cada tipus de fruit sec als municipis del Baix Camp.
+    Cada barra representa un municipi, i els colors indiquen els diferents cultius (veure llegenda). La lectura revela patrons clars, en la campanya més recent (2024),
+    municipis com Riudoms i La Selva del Camp concentren les superfícies més extenses, amb una forta presència d'avellaner i olivera. Els segueixen Reus, Mont-Roig del Camp, amb 
+    i l'Aleixar, on avellaner i olivera tornen es tornen a imposar com a representants de cultiu. Tota la resta de municipis es troben en una representació agrària 
+    menyspreable, fet que posa en evidència l'abandonament de cultiu que ha patit el sector durant els darrers anys.
   </p>
 
   <div id="controls-barres" class="ms-5 mb-3">
     <label for="campanya-barres" class="form-label fw-semibold me-2">Campanya:</label>
-    <select id="campanya-barres" class="form-select form-select-sm" style="width:150px;">
-      <option value="">Totes</option>
-    </select>
+    <select id="campanya-barres" class="form-select form-select-sm" style="width:150px;"></select>
   </div>
 
   <div id="chart" class="container mb-5"></div>
 
   <h3 id="conclusions" class="fw-bold">7. Conclusions</h3>
   <p>
-    Les visualitzacions mostren un <strong>paisatge agrícola divers però amb dominàncies clares</strong:
-    l’olivera continua sent el cultiu més extens, l’avellaner creix en zones interiors, i el garrofer recupera presència en municipis del sud.
-    El regadiu guanya pes en cultius d’alt valor afegit, mentre que el secà manté la seva importància tradicional.
-    En conjunt, el Baix Camp reflecteix una <strong>transició agrícola equilibrada</strong entre tradició i adaptació climàtica.
+    Les visualitzacions desenvolupades evidencien un paisatge agrícola en transició, marcat per la coexistència entre la tradició i l'adaptació a noves condicions
+    climàtiques. L'olivera es consolida com el cultiu més extens i estable, mentre que l'avellaner mostra una tendència regressiva. En paral·lel, el garrofer experimenta
+    una recuperació notable en municipis principalment del sud, fet que reflecteix una reorientació productiva cap a espècies més resistents i rendibles.
+    El regadiu incrementa la seva presència en cultius d'oliveres i avellaners, mentre que el secà manté el seu pes en àrees de menor disponibilitat hídrica.
+  </p>
+  <p>
+    En conjunt, el Baix Camp presenta una estructura agrícola <strong>diversa però desequilibrada</strong>, amb concentracions de superfície agrícola sostinguda en pocs municipis
+    i signes evidents d'abandonament agrari en molts municipis de la comarca. 
   </p>
 </div>
 
@@ -301,31 +310,30 @@ fetch('data/parceles_simplificat_test.json')
     })
 
     document.getElementById('cultiu').addEventListener('change', () => {
-    const cultiu = document.getElementById('cultiu').value
-    const selectVarietat = document.getElementById('varietat')
-    const labelVarietat = document.getElementById('label-varietat')
+      const cultiu = document.getElementById('cultiu').value
+      const selectVarietat = document.getElementById('varietat')
+      const labelVarietat = document.getElementById('label-varietat')
+      const containerVarietat = document.getElementById('varietat-container')
 
-    // Si no hi ha cultiu → amaguem el filtre
-    if (!cultiu) {
-      selectVarietat.style.display = "none"
-      labelVarietat.style.display = "none"
-      selectVarietat.innerHTML = '<option value="">Totes</option>'
-      return
-    }
+      // Si no hi ha cultiu → amaguem el filtre
+      if (!cultiu) {
+        containerVarietat.style.display = "none"
+        selectVarietat.innerHTML = '<option value="">Totes</option>'
+        return
+      }
 
       const varietats = [...new Set(
         allData.features
           .filter(f => f.properties.cultiu === cultiu)
           .map(f => f.properties.varietat)
       )]
-      .filter(Boolean)
-      .sort()
+        .filter(Boolean)
+        .sort()
 
-      // 🔹 Mostrar el filtre
-      selectVarietat.style.display = "inline-block"
-      labelVarietat.style.display = "inline-block"
+      // Mostrar el contenidor del filtre
+      containerVarietat.style.display = "block"
 
-      // 🔹 Omplir el select
+      // Omplir el select
       selectVarietat.innerHTML = '<option value="">Totes</option>'
       varietats.forEach(v => {
         const opt = document.createElement('option')
@@ -334,7 +342,6 @@ fetch('data/parceles_simplificat_test.json')
         selectVarietat.appendChild(opt)
       })
     })
-
   })
 
   d3.csv("data/time_series_cultiu_chunked_fix.csv").then(data => {
@@ -434,8 +441,6 @@ const select = document.getElementById("campanya-barres");
     const campanyes = [...new Set(data.map(d => d.campanya))].sort();
 
     const select = document.getElementById("campanya-barres");
-
-    select.innerHTML = '<option value="">Totes</option>';
 
     campanyes.forEach(c => {
       const opt = document.createElement("option");
