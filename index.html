@@ -5,45 +5,43 @@
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <meta charset="UTF-8">
 
-<style>
-  .intro {
-    max-width: 800px;
-    margin: 20px auto;
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    color: #333;
-    text-align: center;
-  }
-</style>
+<header class="py-4 mb-4 border-bottom" style="background:#f8f9fa;">
+  <div class="container d-flex flex-column align-items-center">
+    <h1 class="fw-bold text-center">Evolució i Distribució de Cultius de Fruits Secs al Baix Camp</h1>
+    <p class="mt-2 mb-1 fs-5">Marc Roigé Benaiges</p>
+    <p class="mb-1"> Visualització de Dades</p>
+    <p class="mb-0">Pràctica Part II — Juny 2026</p>
+  </div>
+</header>
 
-<style>
-  #map {
-    height: 600px;
-    width: 80%;          /* 🔹 redueix amplada al 80% de la pàgina */
-    margin: 0 auto;      /* 🔹 centra el mapa horitzontalment */
-    border-radius: 8px;  /* opcional: cantonades arrodonides */
-    box-shadow: 0 0 6px rgba(0,0,0,0.2); /* opcional: ombra suau */
-  }
-</style>
+<div class="container mt-5 mb-5">
+  <h4 class="fw-semibold mt-4">Índex de continguts</h4>
+  <ul>
+    <li><a href="#intro" class="text-decoration-none fw-semibold">1. Introducció</a> — Context territorial i objectius de l’anàlisi</li>
+    <li><a href="#mapa" class="text-decoration-none fw-semibold">2. Mapa interactiu de cultius</a> — Distribució espacial i filtres dinàmics</li>
+    <li><a href="#heatmap" class="text-decoration-none fw-semibold">3. Heatmap de dominància</a> — Evolució temporal del cultiu predominant per municipi</li>
+    <li><a href="#regadiu" class="text-decoration-none fw-semibold">4. Gràfic Regadiu vs Secà</a> — Anàlisi de la superfície segons el tipus de conreu</li>
+    <li><a href="#serie" class="text-decoration-none fw-semibold">5. Sèrie temporal d’hectàrees</a> — Tendències de creixement i estabilitat per cultiu</li>
+    <li><a href="#distribucio" class="text-decoration-none fw-semibold">6. Distribució de la superfície per municipi</a> — Comparació territorial dels cultius</li>
+    <li><a href="#conclusions" class="text-decoration-none fw-semibold">7. Conclusions</a> — Principals patrons observats i implicacions territorials</li>
+  </ul>
 
-<div class="intro">
-  <h1>Distribució de cultius de fruits secs al Baix Camp</h1>
+  <hr class="my-4">
+
+   <h3 id="intro" class="fw-bold mt-4">1. Introducció</h3>
   <p>
-    Visualització interactiva de cultius de fruits secs del Baix Camp durant els periodes 2020-2024.
-    Font: DUN
+    Aquest projecte analitza la <strong>distribució i evolució dels cultius de fruits secs al Baix Camp</strong entre els anys 2020 i 2024, utilitzant dades de la <em>Declaració Única Agrària (DUN)</em>.
+    L’objectiu és comprendre com han evolucionat els principals cultius —olivera, avellaner, ametller, garrofer, noguera i pistatxer— en termes de superfície, tipus de reg i presència territorial.
   </p>
-</div>
 
+  <h3 id="mapa" class="fw-bold mt-4">2. Mapa interactiu de cultius</h3>
+  <p>
+    El mapa principal permet explorar la <strong>distribució espacial</strong de les parcel·les agrícoles del Baix Camp.
+    Mitjançant els filtres de campanya, cultiu, varietat, tipus (secà/regadiu) i municipi, l’usuari pot personalitzar la visualització per obtenir una lectura precisa de la realitat agrícola.
+    Aquesta eina és clau per identificar zones de concentració de cultius i patrons de regadiu.
+  </p>
 
-<div id="controls"></div>
-<div id="chart"></div>
-
-<div id="chart-time-series" class="container mt-5">
-  <h3>Evolució d'hectàrees per cultiu (2020-2024)</h3>
-  <svg id="svg-time-series" width="900" height="400"></svg>
-</div>
-
-<div id="filters" class="container mt-4 mb-5">
+  <div id="filters" class="container mt-4 mb-5">
   <div class="card shadow-sm p-3">
     <div class="row g-3 align-items-center justify-content-center">
       <div class="col-md-2">
@@ -104,6 +102,65 @@
 
 <div id="map" style="height: 600px;"></div>
 
+  <<h3 id="heatmap" class="fw-bold mt-4">3. Heatmap de dominància per municipi i campanya</h3>
+  <p>
+    El heatmap mostra el <strong>cultiu dominant</strong de cada municipi per campanya, amb colors que representen cada tipus de fruit sec.
+    Aquesta visualització permet detectar canvis temporals en la dominància agrícola i comparar municipis amb dinàmiques diferents.
+    Per exemple, es pot observar la persistència de l’olivera en zones costaneres i l’expansió de l’avellaner en àrees interiors.
+  </p>
+
+  <div id="heatmap-dominancia" class="container mt-5">
+    <div id="legend-dominancia" class="mb-2"></div>
+    <svg id="svg-heatmap" width="900" height="600"></svg>
+  </div>
+
+
+
+  <h3 id="regadiu" class="fw-bold mt-4">4. Superfície de Regadiu vs Secà per Cultiu</h3>
+  <p>
+    Aquest gràfic apilat compara la <strong>superfície total de regadiu i secà</strong per cada cultiu.
+    Els colors blau i marró indiquen respectivament les hectàrees regades i de secà, mostrant la dependència hídrica de cada espècie.
+    L’olivera i l’avellaner destaquen per la seva presència en regadiu, mentre que el garrofer i l’ametller mantenen una major proporció de secà.
+  </p>
+
+  <div id="regadiu-seca-container" class="container mt-5">
+    <svg id="svg-regadiu-seca" width="900" height="500"></svg>
+  </div>
+
+  <h3 id="serie" class="fw-bold mt-4">5. Evolució d’hectàrees per cultiu (2020–2024)</h3>
+  <p>
+    La sèrie temporal il·lustra la <strong>tendència de creixement o estabilitat</strong de cada cultiu al llarg dels cinc anys.
+    Aquesta visualització ajuda a identificar patrons de substitució o consolidació agrícola, com l’augment progressiu de l’avellaner o la estabilitat de l’olivera.
+  </p>
+
+  <div id="chart-time-series" class="container mt-5">
+    <svg id="svg-time-series" width="900" height="400"></svg>
+  </div>
+
+  <h3 id="distribucio" class="fw-bold mt-4">6. Distribució de la superfície de cultius de fruits secs per municipi</h3>
+  <p>
+    
+  </p>
+
+  <div id="controls-barres" class="ms-5 mb-3">
+    <label for="campanya-barres" class="form-label fw-semibold me-2">Campanya:</label>
+    <select id="campanya-barres" class="form-select form-select-sm" style="width:150px;">
+      <option value="">Totes</option>
+    </select>
+  </div>
+
+  <div id="chart" class="container mb-5"></div>
+
+  <h3 id="conclusions" class="fw-bold">7. Conclusions</h3>
+  <p>
+    Les visualitzacions mostren un <strong>paisatge agrícola divers però amb dominàncies clares</strong:
+    l’olivera continua sent el cultiu més extens, l’avellaner creix en zones interiors, i el garrofer recupera presència en municipis del sud.
+    El regadiu guanya pes en cultius d’alt valor afegit, mentre que el secà manté la seva importància tradicional.
+    En conjunt, el Baix Camp reflecteix una <strong>transició agrícola equilibrada</strong entre tradició i adaptació climàtica.
+  </p>
+</div>
+
+
 <script>
   const map = L.map('map').setView([41.18, 1.05], 10)
 
@@ -143,14 +200,15 @@ fetch('data/parceles_simplificat_test.json')
     .sort((a, b) => a - b)
 
     const selectCampanya = document.getElementById('campanya')
+
+    selectCampanya.innerHTML = '<option value="">Totes</option>';
+
     campanyes.forEach(c => {
       const opt = document.createElement('option')
       opt.value = c
       opt.textContent = c
       selectCampanya.appendChild(opt)
     })
-
-    console.log(campanyes)
 
     const cultius = [...new Set(data.features.map(f => f.properties.cultiu))]
       .filter(Boolean)
@@ -290,9 +348,9 @@ fetch('data/parceles_simplificat_test.json')
     // Agrupar per cultiu
     const nested = d3.group(data, d => d.cultiu);
 
-    const svg = d3.select("#svg-time-series");
-    const width = +svg.attr("width");
-    const height = +svg.attr("height");
+    const svgTime = d3.select("#svg-time-series");
+    const width = +svgTime.attr("width");
+    const height = +svgTime.attr("height");
     const margin = { top: 40, right: 100, bottom: 40, left: 60 };
 
     const x = d3.scaleLinear()
@@ -309,14 +367,14 @@ fetch('data/parceles_simplificat_test.json')
       .range(d3.schemeSet2);
 
     // Eixos
-    svg.append("g")
+    svgTime.append("g")
     .attr("transform", `translate(0,${height - margin.bottom})`)
     .call(d3.axisBottom(x)
       .tickValues([2020, 2021, 2022, 2023, 2024])  // ✅ ticks fixos
       .tickFormat(d3.format("d"))
     );
 
-    svg.append("g")
+    svgTime.append("g")
       .attr("transform", `translate(${margin.left},0)`)
       .call(d3.axisLeft(y));
 
@@ -325,7 +383,7 @@ fetch('data/parceles_simplificat_test.json')
       // 🔹 Ordenar per campanya
       values.sort((a, b) => d3.ascending(a.campanya, b.campanya));
 
-      svg.append("path")
+      svgTime.append("path")
         .datum(values)
         .attr("fill", "none")
         .attr("stroke", color(cultiu))
@@ -336,7 +394,7 @@ fetch('data/parceles_simplificat_test.json')
         );
 
       const last = values[values.length - 1];
-      svg.append("text")
+      svgTime.append("text")
         .attr("x", x(last.campanya) + 5)
         .attr("y", y(last.ha))
         .attr("fill", color(cultiu))
@@ -347,23 +405,20 @@ fetch('data/parceles_simplificat_test.json')
 
   });
 
-  // Crear contenidors automàticament
-  const controls = d3.select("#controls");
-
-  const chartDiv = d3.select("#chart");
+const chartDiv = d3.select("#chart");
 
   // Dimensions
-  const width = 1200;
-  const height = 600;
-  const margin = { top: 40, right: 20, bottom: 120, left: 80 };
+const width = 1200;
+const height = 600;
+const margin = { top: 40, right: 20, bottom: 120, left: 80 };
 
-  // SVG
-  const svg = chartDiv.append("svg")
-    .attr("width", width)
-    .attr("height", height);
+// SVG
+const svg = chartDiv.append("svg")
+  .attr("width", width)
+  .attr("height", height);
 
 
-  const select = document.getElementById("campanya");
+const select = document.getElementById("campanya-barres");
 
   // Carregar dades
   d3.csv("data/agg_campanya_municipi_cultiu_chunked_fix.csv").then(data => {
@@ -378,9 +433,9 @@ fetch('data/parceles_simplificat_test.json')
     // Obtenir campanyes úniques
     const campanyes = [...new Set(data.map(d => d.campanya))].sort();
 
-    const select = document.getElementById("campanya");  // ← AIXÒ FALTAVA
+    const select = document.getElementById("campanya-barres");
 
-    select.innerHTML = "";  // ← ara sí funciona
+    select.innerHTML = '<option value="">Totes</option>';
 
     campanyes.forEach(c => {
       const opt = document.createElement("option");
@@ -481,6 +536,210 @@ fetch('data/parceles_simplificat_test.json')
     select.addEventListener("change", e => update(e.target.value));
   });
 
+  d3.csv("data/dominant_per_municipi_campanya_chunked_fix.csv").then(data => {
+  const campanyes = [...new Set(data.map(d => d.campanya))].sort();
+  const select = d3.select("#campanya-dominant");
+
+  select.selectAll("option")
+    .data(campanyes)
+    .join("option")
+    .attr("value", d => d)
+    .text(d => d);
+
+  function update(campanya) {
+    const filtered = data.filter(d => d.campanya === campanya);
+    // pintar municipis segons cultiu dominant
+  }
+
+  select.on("change", e => update(e.target.value));
+  update(campanyes[0]);
+});
+  
+d3.csv("data/regadiu_seca_per_cultiu_chunked_fix.csv").then(raw => {
+
+  // Convertir valors numèrics
+  raw.forEach(d => {
+    d.ha = +d.ha;
+    d.seca_regad = d.seca_regad.trim();
+    d.cultiu = d.cultiu.trim();
+  });
+
+  // Agrupar per cultiu i sumar S i R
+  const data = Array.from(
+    d3.group(raw, d => d.cultiu),
+    ([cultiu, rows]) => ({
+      cultiu,
+      Seca: d3.sum(rows.filter(r => r.seca_regad === "S"), r => r.ha),
+      Regadiu: d3.sum(rows.filter(r => r.seca_regad === "R"), r => r.ha)
+    })
+  );
+
+  // Dimensions
+  const svg = d3.select("#svg-regadiu-seca");
+  const width = +svg.attr("width");
+  const height = +svg.attr("height");
+  const margin = { top: 40, right: 150, bottom: 80, left: 80 };
+
+  // Escala X
+  const x = d3.scaleBand()
+    .domain(data.map(d => d.cultiu))
+    .range([margin.left, width - margin.right])
+    .padding(0.2);
+
+  // Escala Y
+  const y = d3.scaleLinear()
+    .domain([0, d3.max(data, d => d.Seca + d.Regadiu)])
+    .nice()
+    .range([height - margin.bottom, margin.top]);
+
+  // Colors
+  const color = d3.scaleOrdinal()
+    .domain(["Seca", "Regadiu"])
+    .range(["#c49c6b", "#4fa3ff"]); // marró i blau
+
+  // Preparar dades apilades
+  const stacked = d3.stack()
+    .keys(["Seca", "Regadiu"])
+    (data);
+
+  // Dibuixar barres apilades
+  svg.append("g")
+    .selectAll("g")
+    .data(stacked)
+    .join("g")
+    .attr("fill", d => color(d.key))
+    .selectAll("rect")
+    .data(d => d)
+    .join("rect")
+    .attr("x", d => x(d.data.cultiu))
+    .attr("y", d => y(d[1]))
+    .attr("height", d => y(d[0]) - y(d[1]))
+    .attr("width", x.bandwidth());
+
+  // Eix X
+  svg.append("g")
+    .attr("transform", `translate(0,${height - margin.bottom})`)
+    .call(d3.axisBottom(x))
+    .selectAll("text")
+    .attr("transform", "rotate(-45)")
+    .style("text-anchor", "end");
+
+  // Eix Y
+  svg.append("g")
+    .attr("transform", `translate(${margin.left},0)`)
+    .call(d3.axisLeft(y));
+
+  // Llegenda
+  const legend = svg.append("g")
+    .attr("transform", `translate(${width - 120}, ${margin.top})`);
+
+  ["Seca", "Regadiu"].forEach((key, i) => {
+    legend.append("rect")
+      .attr("x", 0)
+      .attr("y", i * 20)
+      .attr("width", 14)
+      .attr("height", 14)
+      .attr("fill", color(key));
+
+    legend.append("text")
+      .attr("x", 20)
+      .attr("y", i * 20 + 12)
+      .text(key)
+      .style("font-size", "12px");
+  });
+
+});
+
+
+d3.csv("data/dominant_per_municipi_campanya_chunked_fix.csv").then(raw => {
+
+  // Normalitzar dades
+  raw.forEach(d => {
+    d.campanya = d.campanya.trim();
+    d.municipi = d.municipi.trim();
+    d.cultiu_dominant = d.cultiu_dominant.trim();
+  });
+
+  // Llistes úniques
+  const municipis = [...new Set(raw.map(d => d.municipi))].sort();
+  const campanyes = [...new Set(raw.map(d => d.campanya))].sort();
+
+  // Dimensions
+  const svg = d3.select("#svg-heatmap");
+  const width = +svg.attr("width");
+  const height = +svg.attr("height");
+  const margin = { top: 80, right: 20, bottom: 20, left: 150 };
+
+  // Colors per cultiu dominant
+  const colors = {
+    "OLIVERA": "#4CAF50",
+    "AVELLANER": "#8BC34A",
+    "GARROFER": "#795548",
+    "AMETLLER": "#FFC107",
+    "NOGUERA": "#9E9E9E",
+    "PISTATXER O FESTUC": "#FF5722"
+  };
+
+  // Escales
+  const x = d3.scaleBand()
+    .domain(campanyes)
+    .range([margin.left, width - margin.right])
+    .padding(0.05);
+
+  const y = d3.scaleBand()
+    .domain(municipis)
+    .range([margin.top, height - margin.bottom])
+    .padding(0.05);
+
+  // Dibuixar cel·les
+  svg.append("g")
+    .selectAll("rect")
+    .data(raw)
+    .join("rect")
+    .attr("x", d => x(d.campanya))
+    .attr("y", d => y(d.municipi))
+    .attr("width", x.bandwidth())
+    .attr("height", y.bandwidth())
+    .attr("fill", d => colors[d.cultiu_dominant] || "#ccc")
+    .attr("stroke", "#333")
+    .attr("stroke-width", 0.3)
+    .append("title")
+    .text(d => `${d.municipi} (${d.campanya}): ${d.cultiu_dominant}`);
+
+  // Eix X (campanyes)
+  svg.append("g")
+    .attr("transform", `translate(0,${margin.top - 10})`)
+    .call(d3.axisTop(x))
+    .selectAll("text")
+    .style("font-size", "12px");
+
+  // Eix Y (municipis)
+  svg.append("g")
+    .attr("transform", `translate(${margin.left - 5},0)`)
+    .call(d3.axisLeft(y))
+    .selectAll("text")
+    .style("font-size", "12px");
+
+  const legendDiv = d3.select("#legend-dominancia");
+
+  Object.entries(colors).forEach(([cultiu, color]) => {
+    const item = legendDiv.append("div")
+      .style("display", "inline-flex")
+      .style("align-items", "center")
+      .style("margin-right", "12px");
+
+    item.append("div")
+      .style("width", "14px")
+      .style("height", "14px")
+      .style("background-color", color)
+      .style("margin-right", "6px");
+
+    item.append("span")
+      .text(cultiu)
+      .style("font-size", "13px");
+  });
+
+});
 
 
 
