@@ -201,7 +201,7 @@
 
   let layer; // capa global per poder eliminar-la i tornar-la a pintar
 
-fetch('data/parceles_simplificat_test.json')
+fetch('data/parceles_simplificat.json')
   .then(r => r.json())
   .then(data => {
 
@@ -344,7 +344,7 @@ fetch('data/parceles_simplificat_test.json')
     })
   })
 
-  d3.csv("data/time_series_cultiu_chunked_fix.csv").then(data => {
+  d3.csv("data/campanya_cultiu_ha.csv").then(data => {
 
     // Convertir valors numèrics
     data.forEach(d => {
@@ -428,12 +428,12 @@ const svg = chartDiv.append("svg")
 const select = document.getElementById("campanya-barres");
 
   // Carregar dades
-  d3.csv("data/agg_campanya_municipi_cultiu_chunked_fix.csv").then(data => {
+  d3.csv("data/agg_campanya_municipi_cultiu.csv").then(data => {
     // Convertir ha a número
     data.forEach(d => d.ha = +d.ha);
 
     data.forEach(d => {
-      d.campanya = d.campanya.trim(); // ✅ elimina espais o tabulacions
+      d.campanya = d.campanya.trim(); 
       d.ha = +d.ha;
     });
 
@@ -450,16 +450,10 @@ const select = document.getElementById("campanya-barres");
     });
 
 
-    // Funció per dibuixar el gràfic
     function update(campanya) {
 
-      // Filtrar per campanya
       const filtered = data.filter(d => d.campanya === campanya);
-
-      // Agrupar per municipi → cultiu → ha
       const nested = d3.group(filtered, d => d.municipi);
-
-      // Preparar dades apilades
       const cultius = [...new Set(filtered.map(d => d.cultiu))].sort();
 
       const stackedData = d3.stack()
@@ -469,7 +463,6 @@ const select = document.getElementById("campanya-barres");
           return found ? found.ha : 0;
         })(nested);
 
-      // Escales
       const x = d3.scaleBand()
         .domain([...nested.keys()])
         .range([margin.left, width - margin.right])
@@ -484,10 +477,8 @@ const select = document.getElementById("campanya-barres");
         .domain(cultius)
         .range(d3.schemeSet2);
 
-      // Esborrar contingut anterior
       svg.selectAll("*").remove();
 
-      // Dibuixar capes apilades
       svg.append("g")
         .selectAll("g")
         .data(stackedData)
@@ -501,7 +492,6 @@ const select = document.getElementById("campanya-barres");
         .attr("height", d => y(d[0]) - y(d[1]))
         .attr("width", x.bandwidth());
 
-      // Eix X
       svg.append("g")
         .attr("transform", `translate(0,${height - margin.bottom})`)
         .call(d3.axisBottom(x))
@@ -509,12 +499,10 @@ const select = document.getElementById("campanya-barres");
         .attr("transform", "rotate(-65)")
         .style("text-anchor", "end");
 
-      // Eix Y
       svg.append("g")
         .attr("transform", `translate(${margin.left},0)`)
         .call(d3.axisLeft(y));
 
-      // Llegenda
       const legend = svg.append("g")
         .attr("transform", `translate(${width - 150}, ${margin.top})`);
 
@@ -534,14 +522,12 @@ const select = document.getElementById("campanya-barres");
       });
     }
 
-    // Inicialitzar amb la primera campanya
     update(campanyes[0]);
 
-    // Actualitzar quan l’usuari canvia la campanya
     select.addEventListener("change", e => update(e.target.value));
   });
 
-  d3.csv("data/dominant_per_municipi_campanya_chunked_fix.csv").then(data => {
+  d3.csv("data/ha_dominant_per_municipi_campanya.csv").then(data => {
   const campanyes = [...new Set(data.map(d => d.campanya))].sort();
   const select = d3.select("#campanya-dominant");
 
@@ -560,16 +546,14 @@ const select = document.getElementById("campanya-barres");
   update(campanyes[0]);
 });
   
-d3.csv("data/regadiu_seca_per_cultiu_chunked_fix.csv").then(raw => {
+d3.csv("data/regadiu_seca_per_cultiu.csv").then(raw => {
 
-  // Convertir valors numèrics
   raw.forEach(d => {
     d.ha = +d.ha;
     d.seca_regad = d.seca_regad.trim();
     d.cultiu = d.cultiu.trim();
   });
 
-  // Agrupar per cultiu i sumar S i R
   const data = Array.from(
     d3.group(raw, d => d.cultiu),
     ([cultiu, rows]) => ({
@@ -578,36 +562,29 @@ d3.csv("data/regadiu_seca_per_cultiu_chunked_fix.csv").then(raw => {
       Regadiu: d3.sum(rows.filter(r => r.seca_regad === "R"), r => r.ha)
     })
   );
-
-  // Dimensions
   const svg = d3.select("#svg-regadiu-seca");
   const width = +svg.attr("width");
   const height = +svg.attr("height");
   const margin = { top: 40, right: 150, bottom: 80, left: 80 };
 
-  // Escala X
   const x = d3.scaleBand()
     .domain(data.map(d => d.cultiu))
     .range([margin.left, width - margin.right])
     .padding(0.2);
 
-  // Escala Y
   const y = d3.scaleLinear()
     .domain([0, d3.max(data, d => d.Seca + d.Regadiu)])
     .nice()
     .range([height - margin.bottom, margin.top]);
 
-  // Colors
   const color = d3.scaleOrdinal()
     .domain(["Seca", "Regadiu"])
     .range(["#c49c6b", "#4fa3ff"]); // marró i blau
 
-  // Preparar dades apilades
   const stacked = d3.stack()
     .keys(["Seca", "Regadiu"])
     (data);
 
-  // Dibuixar barres apilades
   svg.append("g")
     .selectAll("g")
     .data(stacked)
@@ -621,7 +598,6 @@ d3.csv("data/regadiu_seca_per_cultiu_chunked_fix.csv").then(raw => {
     .attr("height", d => y(d[0]) - y(d[1]))
     .attr("width", x.bandwidth());
 
-  // Eix X
   svg.append("g")
     .attr("transform", `translate(0,${height - margin.bottom})`)
     .call(d3.axisBottom(x))
@@ -629,12 +605,10 @@ d3.csv("data/regadiu_seca_per_cultiu_chunked_fix.csv").then(raw => {
     .attr("transform", "rotate(-45)")
     .style("text-anchor", "end");
 
-  // Eix Y
   svg.append("g")
     .attr("transform", `translate(${margin.left},0)`)
     .call(d3.axisLeft(y));
 
-  // Llegenda
   const legend = svg.append("g")
     .attr("transform", `translate(${width - 120}, ${margin.top})`);
 
@@ -656,7 +630,7 @@ d3.csv("data/regadiu_seca_per_cultiu_chunked_fix.csv").then(raw => {
 });
 
 
-d3.csv("data/dominant_per_municipi_campanya_chunked_fix.csv").then(raw => {
+d3.csv("data/ha_dominant_per_municipi_campanya.csv").then(raw => {
 
   // Normalitzar dades
   raw.forEach(d => {
