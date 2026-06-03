@@ -9,17 +9,19 @@ L’objectiu és comprendre com han evolucionat els principals cultius —oliver
 
 ## 🧭 Estructura del projecte
 
+```
 projecte/
 │
 ├── index.html                # Pàgina principal amb totes les visualitzacions
-├── README.md                 # README.md
+├── README.md                 # Documentació del projecte
+│
 ├── /js
 │   ├── main.js               # Inicialització global de totes les visualitzacions
 │   ├── mapa.js               # Mapa interactiu amb filtres dinàmics (Leaflet)
 │   ├── heatmap_dominancia.js # Heatmap de cultiu dominant per municipi i campanya
-│   ├── regadiu_seca.js       # Gràfic apilat regadiu vs secà per cultiu
+│   ├── regadiu_seca.js       # Gràfic apilat Regadiu vs Secà per cultiu
 │   ├── serie_temporal.js     # Sèrie temporal d’hectàrees per cultiu
-│   ├── distribucio_municipi.js # Distribució territorial per municipi
+│   └── distribucio_municipi.js # Distribució territorial per municipi
 │
 └── /data
     ├── parceles_simplificat.json
@@ -28,6 +30,7 @@ projecte/
     ├── agg_campanya_municipi_cultiu.csv
     └── ha_dominant_per_municipi_campanya.csv
 
+```
 
 ## 🗺️ Visualitzacions principals
 
@@ -60,6 +63,7 @@ El projecte utilitza les següents llibreries externes:
 
 ## 🚀 Com executar el projecte
 
-1. Clona o descarrega el repositori.
-
-2. Obre index.html en el navegador.
+1. Clonar o descarregar el repositori.
+2. Obrir una terminal dins la carpeta del projecte.
+3. Executar: python -m http.server 8000
+4. Obrir al navegador: http://localhost:8000
