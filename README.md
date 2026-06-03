@@ -9,6 +9,7 @@ L’objectiu és comprendre com han evolucionat els principals cultius —oliver
 
 ## 🧭 Estructura del projecte
 
+```
 projecte/
 │
 ├── index.html                # Pàgina principal amb totes les visualitzacions
@@ -29,6 +30,7 @@ projecte/
     ├── agg_campanya_municipi_cultiu.csv
     └── ha_dominant_per_municipi_campanya.csv
 
+```
 
 ## 🗺️ Visualitzacions principals
 
