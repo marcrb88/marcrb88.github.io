@@ -60,6 +60,7 @@ El projecte utilitza les següents llibreries externes:
 
 ## 🚀 Com executar el projecte
 
-1. Clona o descarrega el repositori.
-
-2. Obre index.html en el navegador.
+1. Clonar o descarregar el repositori.
+2. Obrir una terminal dins la carpeta del projecte.
+3. Executar: python -m http.server 8000
+4. Obrir al navegador: http://localhost:8000
